@@ -1,0 +1,8 @@
+.logo {
+    background: #468;
+    display: flex;
+    justify-content: flex-start;
+    max-width: 150px;
+    text-align: center;
+    padding: 4px;
+}
