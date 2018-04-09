@@ -1,0 +1,14 @@
+#register-form {
+    max-width: 480px;
+    box-shadow: 4px 4px 4px #00000077;
+    border: 1px solid #567;
+    margin: 10vh auto 0;
+}
+
+#register-form label {
+    display: block;
+}
+
+#register-form div {
+    margin: 0 0 1em;
+}
