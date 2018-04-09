@@ -6,49 +6,26 @@ import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import FaceDetector from "./components/FaceDetector/FaceDetector";
+import Signin from "./components/Signin/Signin";
 
 const app = new Clarifai.App({
     apiKey: "eef309dc9d664086b7455f4a101ab9a1"
 });
 
 class App extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             input: "",
             imageUrl: "",
-            faceBox: {}
+            faceboxes: null
         };
     }
 
-    calculateFaceLocation = data => {
-        console.log("calcFaceLoc data: ", data);
-        const clarifaiFace =
-            data.outputs[0].data.regions[0].region_info.bounding_box;
-
-        console.log(clarifaiFace);
-        const image = document.getElementById("input-image");
-        const width = Number(image.width);
-        const height = Number(image.height);
-
-        const box = {
-            top: Math.round(clarifaiFace.top_row * 100),
-            bottom: Math.round(100 - clarifaiFace.bottom_row * 100),
-            left: Math.round(clarifaiFace.left_col * 100),
-            right: Math.round(100 - clarifaiFace.right_col * 100)
-        };
-
-        // this.setState({
-        //     faceBox: {
-        //         topRow,
-        //         bottomRow,
-        //         leftCol,
-        //         rightCol
-        //     }
-        // });
+    handleFacesLocationData = respData => {
         this.setState({
-            faceBox: box
+            faceboxes: respData.outputs[0].data.regions
         });
     };
 
@@ -57,7 +34,6 @@ class App extends Component {
     };
 
     handleInputSubmit = e => {
-        console.log("clicked submit");
         this.setState({
             imageUrl: this.state.input
         });
@@ -65,8 +41,7 @@ class App extends Component {
         app.models
             .predict("a403429f2ddf4b49b307e318f00e528b", this.state.input)
             .then(response => {
-                // console.log(response);
-                this.calculateFaceLocation(response);
+                this.handleFacesLocationData(response);
             })
             .catch(err => console.log(err));
     };
@@ -75,6 +50,7 @@ class App extends Component {
         return (
             <div className="App">
                 <Navigation />
+                <Signin />
                 <Logo />
                 <ImageLinkForm
                     onInputChange={this.handleInputChange}
@@ -82,7 +58,7 @@ class App extends Component {
                 />
                 <FaceDetector
                     imageUrl={this.state.imageUrl}
-                    faceBox={this.state.faceBox}
+                    faceboxes={this.state.faceboxes}
                 />
             </div>
         );
