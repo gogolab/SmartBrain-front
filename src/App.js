@@ -77,7 +77,8 @@ class App extends Component {
                                     entries: count
                                 }
                             });
-                        });
+                        })
+                        .catch(console.log);
                 }
                 this.handleFacesLocationData(response);
             })
