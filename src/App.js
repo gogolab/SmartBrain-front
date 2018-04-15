@@ -4,6 +4,7 @@ import "./App.css";
 
 import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
+import Rank from "./components/Rank/Rank";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import FaceDetector from "./components/FaceDetector/FaceDetector";
 import Signin from "./components/Signin/Signin";
@@ -22,8 +23,21 @@ class App extends Component {
             imageUrl: "",
             faceboxes: null,
             route: "signin",
-            isSignedIn: false
+            isSignedIn: false,
+            user: {
+                id: "",
+                name: "",
+                email: "",
+                entries: "",
+                joined: ""
+            }
         };
+    }
+
+    componentDidMount() {
+        fetch("http://localhost:3000")
+            .then(response => response.json())
+            .then(data => console.log(data));
     }
 
     handleFacesLocationData = respData => {
@@ -38,12 +52,31 @@ class App extends Component {
 
     handleInputSubmit = e => {
         this.setState({
-            imageUrl: this.state.input
+            imageUrl: this.state.input,
+            faceboxes: null
         });
 
         app.models
             .predict("a403429f2ddf4b49b307e318f00e528b", this.state.input)
             .then(response => {
+                if (response) {
+                    fetch("http://localhost:3000/image", {
+                        method: "put",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            id: this.state.user.id
+                        })
+                    })
+                        .then(response => response.json())
+                        .then(count => {
+                            this.setState({
+                                user: {
+                                    ...this.state.user,
+                                    entries: count
+                                }
+                            });
+                        });
+                }
                 this.handleFacesLocationData(response);
             })
             .catch(err => console.log(err));
@@ -59,13 +92,34 @@ class App extends Component {
         this.setState({ route: route });
     };
 
+    handleLoadUser = userData => {
+        this.setState({
+            user: {
+                id: userData.id,
+                name: userData.name,
+                email: userData.email,
+                entries: userData.entries,
+                joined: userData.joined
+            }
+        });
+    };
+
     render() {
-        let content = <Signin handleRouteChange={this.handleRouteChange} />;
+        let content = (
+            <Signin
+                handleRouteChange={this.handleRouteChange}
+                loadUser={this.handleLoadUser}
+            />
+        );
 
         if (this.state.route === "home") {
             content = (
                 <div>
                     <Logo />
+                    <Rank
+                        name={this.state.user.name}
+                        entries={this.state.user.entries}
+                    />
                     <ImageLinkForm
                         onInputChange={this.handleInputChange}
                         onInputSubmit={this.handleInputSubmit}
@@ -77,7 +131,12 @@ class App extends Component {
                 </div>
             );
         } else if (this.state.route === "register") {
-            content = <Register handleRouteChange={this.handleRouteChange} />;
+            content = (
+                <Register
+                    handleRouteChange={this.handleRouteChange}
+                    loadUser={this.handleLoadUser}
+                />
+            );
         }
 
         return (

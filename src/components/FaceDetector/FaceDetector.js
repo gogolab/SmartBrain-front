@@ -9,10 +9,10 @@ const FaceDetector = props => {
             const boundingBox = faceBox.region_info.bounding_box;
 
             const box = {
-                top: Math.round(boundingBox.top_row * 100),
-                left: Math.round(boundingBox.left_col * 100),
-                bottom: Math.round(100 - boundingBox.bottom_row * 100),
-                right: Math.round(100 - boundingBox.right_col * 100)
+                top: boundingBox.top_row * 100,
+                left: boundingBox.left_col * 100,
+                bottom: 100 - boundingBox.bottom_row * 100,
+                right: 100 - boundingBox.right_col * 100
             };
 
             return (
