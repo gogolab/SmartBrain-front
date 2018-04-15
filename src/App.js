@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Clarifai from "clarifai";
 import "./App.css";
 
 import Navigation from "./components/Navigation/Navigation";
@@ -9,10 +8,6 @@ import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import FaceDetector from "./components/FaceDetector/FaceDetector";
 import Signin from "./components/Signin/Signin";
 import Register from "./components/Register/Register";
-
-const app = new Clarifai.App({
-    apiKey: "eef309dc9d664086b7455f4a101ab9a1"
-});
 
 const initialState = {
     input: "",
@@ -58,8 +53,14 @@ class App extends Component {
             faceboxes: null
         });
 
-        app.models
-            .predict("a403429f2ddf4b49b307e318f00e528b", this.state.input)
+        fetch("http://localhost:3000/image_url", {
+            method: "post",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                input: this.state.input
+            })
+        })
+            .then(response => response.json())
             .then(response => {
                 if (response) {
                     fetch("http://localhost:3000/image", {
