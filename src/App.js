@@ -14,24 +14,26 @@ const app = new Clarifai.App({
     apiKey: "eef309dc9d664086b7455f4a101ab9a1"
 });
 
+const initialState = {
+    input: "",
+    imageUrl: "",
+    faceboxes: null,
+    route: "signin",
+    isSignedIn: false,
+    user: {
+        id: "",
+        name: "",
+        email: "",
+        entries: "",
+        joined: ""
+    }
+};
+
 class App extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            input: "",
-            imageUrl: "",
-            faceboxes: null,
-            route: "signin",
-            isSignedIn: false,
-            user: {
-                id: "",
-                name: "",
-                email: "",
-                entries: "",
-                joined: ""
-            }
-        };
+        this.state = initialState;
     }
 
     componentDidMount() {
@@ -84,7 +86,7 @@ class App extends Component {
 
     handleRouteChange = route => () => {
         if (route === "signout") {
-            this.setState({ isSignedIn: false });
+            this.setState(initialState);
         } else if (route === "home") {
             this.setState({ isSignedIn: true });
         }
