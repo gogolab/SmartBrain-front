@@ -1,10 +1,16 @@
 import React from "react";
+import ProfileIcon from "../Profile/ProfileIcon";
 
 const Navigation = props => {
     let navLinks;
 
     if (props.isSignedIn) {
-        navLinks = <p onClick={props.handleRouteChange("signout")}>Sign Out</p>;
+        navLinks = (
+            <div>
+                <ProfileIcon />
+                <p onClick={props.handleRouteChange("signout")}>Sign Out</p>
+            </div>
+        );
     } else {
         navLinks = (
             <div>
