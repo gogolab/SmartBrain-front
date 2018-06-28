@@ -119,7 +119,6 @@ class App extends Component {
         if (this.state.route === "home") {
             content = (
                 <div>
-                    <Logo />
                     <Rank
                         name={this.state.user.name}
                         entries={this.state.user.entries}
@@ -145,10 +144,13 @@ class App extends Component {
 
         return (
             <div className="App">
-                <Navigation
-                    handleRouteChange={this.handleRouteChange}
-                    isSignedIn={this.state.isSignedIn}
-                />
+                <header>
+                    <Logo />
+                    <Navigation
+                        handleRouteChange={this.handleRouteChange}
+                        isSignedIn={this.state.isSignedIn}
+                    />
+                </header>
                 {content}
             </div>
         );

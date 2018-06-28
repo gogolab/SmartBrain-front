@@ -7,15 +7,24 @@ const Navigation = props => {
     if (props.isSignedIn) {
         navLinks = (
             <div>
-                <ProfileIcon />
-                <p onClick={props.handleRouteChange("signout")}>Sign Out</p>
+                <ProfileIcon onRouteChange={props.handleRouteChange} />
             </div>
         );
     } else {
         navLinks = (
-            <div>
-                <p onClick={props.handleRouteChange("signin")}>Sign In</p>
-                <p onClick={props.handleRouteChange("register")}>Register</p>
+            <div style={{ display: "flex" }}>
+                <p
+                    onClick={props.handleRouteChange("signin")}
+                    style={{ marginRight: "1em" }}
+                >
+                    Sign In
+                </p>
+                <p
+                    onClick={props.handleRouteChange("register")}
+                    style={{ marginRight: "1em" }}
+                >
+                    Register
+                </p>
             </div>
         );
     }

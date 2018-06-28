@@ -79,6 +79,16 @@ class Signin extends Component {
                         </p>
                     </div>
                 </div>
+                <div
+                    style={{
+                        color: "red",
+                        fontSize: "12px",
+                        backgroundColor: "#000"
+                    }}
+                >
+                    <p style={{ margin: "0" }}>dev login: test@test.com</p>
+                    <p style={{ margin: "0" }}>dev pwd: test</p>
+                </div>
             </div>
         );
     }

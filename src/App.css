@@ -1,3 +1,9 @@
 .App {
   text-align: center;
+  padding: 1em 2em;
+}
+
+header {
+  display: flex !important;
+  justify-content: space-between;
 }
