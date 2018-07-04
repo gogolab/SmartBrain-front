@@ -12,15 +12,22 @@ const Profile = props => {
                 paddingTop: "2em"
             }}
         >
-            <button onClick={props.toggleModal} style={{ display: "block" }}>
-                Close modal
-            </button>
             <div id="profile">
-                <img
-                    src="http://tachyons.io/img/logo.jpg"
-                    className="br-100 ba h3 w3 dib"
-                    alt="avatar"
-                />
+                <header
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                    <img
+                        src="http://tachyons.io/img/logo.jpg"
+                        className="br-100 ba h3 w3 dib"
+                        alt="avatar"
+                    />
+                    <button
+                        onClick={props.toggleModal}
+                        style={{ float: "right" }}
+                    >
+                        &times;
+                    </button>
+                </header>
                 <h1>John Doe</h1>
                 <h4>Images submitted: 5</h4>
                 <p>member since: January</p>
@@ -30,32 +37,34 @@ const Profile = props => {
                     <input
                         type="text"
                         id="name"
+                        placeholder="John"
                         onChange={this.handleNameInputChange}
                     />
                 </div>
                 <div>
-                    <label htmlFor="email">e-mail</label>
+                    <label htmlFor="email">Age</label>
                     <input
                         type="email"
                         id="email"
+                        placeholder="123"
                         onChange={this.handleEmailInputChange}
                     />
                 </div>
                 <div>
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">Pet</label>
                     <input
                         type="password"
                         id="password"
+                        placeholder="dragon"
                         onChange={this.handlePasswordInputChange}
                     />
                 </div>
                 <br />
-                <div>
-                    <input
-                        type="submit"
-                        value="Register"
-                        onClick={this.hadleRegisterSubmit}
-                    />
+                <div
+                    style={{ display: "flex", justifyContent: "space-evenly" }}
+                >
+                    <button>Save</button>
+                    <button onClick={props.toggleModal}>Cancel</button>
                 </div>
             </div>
         </div>

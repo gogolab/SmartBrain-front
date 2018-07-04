@@ -15,8 +15,8 @@ const initialState = {
     input: "",
     imageUrl: "",
     faceboxes: null,
-    route: "home",
-    isSignedIn: true,
+    route: "register",
+    isSignedIn: false,
     isProfileOpen: false,
     user: {
         id: "",
