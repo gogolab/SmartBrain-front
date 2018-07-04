@@ -42,7 +42,9 @@ class ProfileIcon extends React.Component {
                         </div>
                     </DropdownToggle>
                     <DropdownMenu right>
-                        <DropdownItem>View Profile</DropdownItem>
+                        <DropdownItem onClick={this.props.toggleModal}>
+                            View Profile
+                        </DropdownItem>
                         <DropdownItem
                             onClick={this.props.onRouteChange("signout")}
                         >

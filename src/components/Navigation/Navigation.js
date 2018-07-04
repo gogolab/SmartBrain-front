@@ -7,7 +7,10 @@ const Navigation = props => {
     if (props.isSignedIn) {
         navLinks = (
             <div>
-                <ProfileIcon onRouteChange={props.handleRouteChange} />
+                <ProfileIcon
+                    onRouteChange={props.handleRouteChange}
+                    toggleModal={props.toggleModal}
+                />
             </div>
         );
     } else {

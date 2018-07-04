@@ -8,13 +8,16 @@ import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import FaceDetector from "./components/FaceDetector/FaceDetector";
 import Signin from "./components/Signin/Signin";
 import Register from "./components/Register/Register";
+import Modal from "./components/Modal/Modal";
+import Profile from "./components/Profile/Profile";
 
 const initialState = {
     input: "",
     imageUrl: "",
     faceboxes: null,
-    route: "signin",
-    isSignedIn: false,
+    route: "home",
+    isSignedIn: true,
+    isProfileOpen: false,
     user: {
         id: "",
         name: "",
@@ -108,6 +111,14 @@ class App extends Component {
         });
     };
 
+    toggleModal = () => {
+        this.setState(prevState => {
+            return {
+                isProfileOpen: !prevState.isProfileOpen
+            };
+        });
+    };
+
     render() {
         let content = (
             <Signin
@@ -149,7 +160,16 @@ class App extends Component {
                     <Navigation
                         handleRouteChange={this.handleRouteChange}
                         isSignedIn={this.state.isSignedIn}
+                        toggleModal={this.toggleModal}
                     />
+                    {this.state.isProfileOpen && (
+                        <Modal>
+                            <Profile
+                                isProfileOpen={this.state.isProfileOpen}
+                                toggleModal={this.toggleModal}
+                            />
+                        </Modal>
+                    )}
                 </header>
                 {content}
             </div>
