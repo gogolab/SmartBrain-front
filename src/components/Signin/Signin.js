@@ -24,6 +24,10 @@ class Signin extends Component {
         });
     };
 
+    saveAuthTokenInSession = token => {
+        window.sessionStorage.setItem("token", token);
+    };
+
     hadleSignInSubmit = () => {
         fetch("http://localhost:3000/signin", {
             method: "post",
@@ -36,10 +40,25 @@ class Signin extends Component {
             })
         })
             .then(response => response.json())
-            .then(user => {
-                if (user.id) {
-                    this.props.loadUser(user);
-                    this.props.handleRouteChange("home")();
+            .then(data => {
+                if (data.userId && data.success) {
+                    this.saveAuthTokenInSession(data.token);
+
+                    fetch(`http://localhost:3000/profile/${data.userId}`, {
+                        method: "get",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: data.token
+                        }
+                    })
+                        .then(resp => resp.json())
+                        .then(user => {
+                            if (user && user.email) {
+                                console.log("user:", user);
+                                this.props.loadUser(user);
+                                this.props.handleRouteChange("home")();
+                            }
+                        });
                 }
             });
     };

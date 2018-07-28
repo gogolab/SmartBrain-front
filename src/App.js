@@ -35,9 +35,38 @@ class App extends Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:3000")
-            .then(response => response.json())
-            .then(data => console.log(data));
+        const token = window.sessionStorage.getItem("token");
+
+        if (token) {
+            fetch("http://localhost:3000/signin", {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: token
+                }
+            })
+                .then(resp => resp.json())
+                .then(data => {
+                    if (data && data.id) {
+                        fetch(`http://localhost:3000/profile/${data.id}`, {
+                            method: "get",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: token
+                            }
+                        })
+                            .then(resp => resp.json())
+                            .then(user => {
+                                if (user && user.email) {
+                                    console.log("user:", user);
+                                    this.loadUser(user);
+                                    this.handleRouteChange("home")();
+                                }
+                            });
+                    }
+                })
+                .catch(console.log);
+        }
     }
 
     handleFacesLocationData = respData => {
@@ -99,7 +128,7 @@ class App extends Component {
         this.setState({ route: route });
     };
 
-    handleLoadUser = userData => {
+    loadUser = userData => {
         this.setState({
             user: {
                 id: userData.id,
@@ -123,7 +152,7 @@ class App extends Component {
         let content = (
             <Signin
                 handleRouteChange={this.handleRouteChange}
-                loadUser={this.handleLoadUser}
+                loadUser={this.loadUser}
             />
         );
 
@@ -148,7 +177,7 @@ class App extends Component {
             content = (
                 <Register
                     handleRouteChange={this.handleRouteChange}
-                    loadUser={this.handleLoadUser}
+                    loadUser={this.loadUser}
                 />
             );
         }
@@ -168,7 +197,7 @@ class App extends Component {
                                 isProfileOpen={this.state.isProfileOpen}
                                 toggleModal={this.toggleModal}
                                 user={this.state.user}
-                                loadUser={this.handleLoadUser}
+                                loadUser={this.loadUser}
                             />
                         </Modal>
                     )}
