@@ -80,6 +80,8 @@ class Profile extends React.Component {
                     <h1>{this.state.name}</h1>
                     <h4>Images submitted: 5</h4>
                     <p>member since: January</p>
+                    <p>age: {age}</p>
+                    <p>pet: {pet}</p>
                     <hr />
                     <div>
                         <label htmlFor="name">Name</label>
@@ -94,7 +96,7 @@ class Profile extends React.Component {
                     <div>
                         <label htmlFor="age">Age</label>
                         <input
-                            type="text"
+                            type="number"
                             id="age"
                             name="user-age"
                             placeholder="123"
@@ -108,6 +110,7 @@ class Profile extends React.Component {
                             id="pet"
                             name="user-pet"
                             placeholder="dragon"
+                            maxLength="100"
                             onChange={this.onFormChange}
                         />
                     </div>
