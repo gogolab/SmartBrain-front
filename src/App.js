@@ -130,6 +130,7 @@ class App extends Component {
 
     handleRouteChange = route => () => {
         if (route === "signout") {
+            this.signOut();
             this.setState(initialState);
         } else if (route === "home") {
             this.setState({ isSignedIn: true });
@@ -158,6 +159,11 @@ class App extends Component {
                 isProfileOpen: !prevState.isProfileOpen
             };
         });
+    };
+
+    signOut = () => {
+        console.log("called signOut");
+        window.sessionStorage.clear();
     };
 
     render() {
